@@ -1,4 +1,4 @@
-use anchor_lang::prelude::*
+use anchor_lang::prelude::*;
 use anchor_spl::{associated_token::AssociatedToken, token_interface::{Mint,TokenAccount,Token2022}};
 
 use crate::{Config, SEED_CONFIG_ACCOUNT, SEED_COLLATERAL_ACCOUNT , SEED_SOL_ACCOUNT , deposit_sol , mint_tokens};
@@ -85,6 +85,11 @@ pub fn process_deposit_collateral_and_mint_tokens(
         amount_to_mint,
         ctx.accounts.config_account.bump_mint_account,
      )?;
+
+     deposit_collateral(
+        &ctx.to_account_info();
+        amount_in_lamports.bump();
+     )
 
     Ok(())
 }

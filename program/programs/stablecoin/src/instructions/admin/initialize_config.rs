@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*; 
-use crate::{Config,SEED_CONFIG_ACCOUNT , SEED_MINT_ACCOUNT , MINT_DECIMALS , MIN_HEALTH_FACTOR, LIQUIDATION_BONUS,LIQUIDATION_THRESHOLD};
+use pyth_solana_receiver_sdk::config::Config;
+
+use crate::constants::{SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT, MINT_DECIMALS, MIN_HEALTH_FACTOR, LIQUIDATION_BONUS, LIQUIDATION_THRESHOLD};
 use anchor_spl::token_interface::{Mint , Token2022 };
 
 #[derive(Accounts)]
@@ -10,7 +12,7 @@ pub struct InitializeConfig<'info> {
     #[account(
         init,
         payer = authority,
-        space = 8 + Config::INIT_SPACE,
+        space = 8 + 128, // Replace 128 with the actual size needed for Config
         seeds = [SEED_CONFIG_ACCOUNT],
         bump,
     )]
@@ -38,14 +40,12 @@ pub struct InitializeConfig<'info> {
 
 pub fn process_initialize_config(ctx: Context<InitializeConfig>) -> Result <()>{
     *ctx.accounts.config_account = Config {
-        authority: ctx.accounts.authority.key(),
         liquidation_threshold: LIQUIDATION_THRESHOLD,
         liquidation_bonus: LIQUIDATION_BONUS,
         min_health_factor: MIN_HEALTH_FACTOR,
         bump: ctx.bumps.config_account,
         bump_mint_account: ctx.bumps.min_account,
-
-    }
+    };
     Ok(())
 
 }
