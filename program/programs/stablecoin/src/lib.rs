@@ -1,4 +1,11 @@
-use anchor_lang::prelude::*;
+use anchor_lang::prelude::*;\
+use state::*;
+mod state;
+use constants::*;
+mod constants;
+use instructions::*;
+mod instructions;
+
 
 declare_id!("H1CQzYo1R6Qog6YUeK5wBPErSVD4FNumwGMvVCJxyn5s");
 
@@ -6,9 +13,8 @@ declare_id!("H1CQzYo1R6Qog6YUeK5wBPErSVD4FNumwGMvVCJxyn5s");
 pub mod stablecoin {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        msg!("Greetings from: {:?}", ctx.program_id);
-        Ok(())
+    pub fn initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
+        process_initialize_config(ctx)
     }
 }
 
